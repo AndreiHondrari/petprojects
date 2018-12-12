@@ -3,6 +3,9 @@ import sys
 import pickle
 import time
 import random
+from hashlib import sha1
+
+from collections import defaultdict
 
 from record import Record
 
@@ -64,7 +67,7 @@ for i, r in enumerated_collection:
 print("Search time: {:.2f}s\n".format(time.time() - start))
 print("Counted: {}\n".format(count))
 
-
+# DIVIDE ET IMPERA SEARCH
 def find_records(collection, attribute, value, inner=False):
 
     if len(collection) == 0:
@@ -149,3 +152,61 @@ for r in found_records:
 
 print("Search time: {:.2f}s".format(time.time() - start))
 print("Counted: {}\n".format(len(found_records)))
+
+
+# INDEXED SEARCH
+
+# make the collection a dict for easy access by ID
+
+print("################################################################")
+print("Index searches")
+print("Create indexes ...")
+collection = {r.id: r for r in collection}
+
+def index_code(value):
+    sha_obj = sha1(str(value).encode())
+    return int(sha_obj.hexdigest(), 16)
+
+def create_index(collection, attribute):
+
+    index = defaultdict(list)
+
+    for i, r in collection.items():
+        index[index_code(getattr(r, attribute))].append(r.id)
+
+    return index
+
+start = time.time()
+short_text_index = create_index(collection, "short_text")
+large_text_index = create_index(collection, "large_text")
+print("Indexes build time: {:.2f}s\n".format(time.time() - start))
+
+print("#################################################################")
+print("Index search for short text (for indexed collection): {}".format(search_record.short_text))
+
+start = time.time()
+
+count = 0
+search_code = index_code(search_record.short_text)
+if search_code in short_text_index:
+    for record_id in short_text_index[search_code]:
+        print("Found record: {}".format(collection[record_id]))
+        count += 1
+
+print("Search time: {:.6f}s".format(time.time() - start))
+print("Counted: {}\n".format(count))
+
+print("#################################################################")
+print("Index search for large text (for indexed collection): {}".format(search_record.large_text))
+
+start = time.time()
+
+search_code = index_code(search_record.large_text)
+count = 0
+if search_code in large_text_index:
+    for record_id in large_text_index[search_code]:
+        print("Found record: {}".format(collection[record_id]))
+        count += 1
+
+print("Search time: {:.6f}s".format(time.time() - start))
+print("Counted: {}\n".format(count))

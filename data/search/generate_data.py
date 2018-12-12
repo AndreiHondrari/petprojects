@@ -5,7 +5,7 @@ import random
 
 import faker
 
-from record import Record
+from record import Record, RecordPlaceholder
 
 finst = faker.Faker()
 
@@ -16,24 +16,38 @@ print(
 print("Generate data...")
 
 start = time.time()
-collection = [
-    Record(
-        id=i, 
-        short_text=finst.text(max_nb_chars=20), 
-        large_text=finst.text(), 
-        number=random.randint(0, 10000)
+
+placeholders = []
+
+NO_OF_ITEMS = 500000
+
+for i in range(NO_OF_ITEMS):
+
+    if i % 10000 == 0:
+        print("Generated {} data items.".format(i))
+
+    placeholders.append(
+        RecordPlaceholder(
+            finst.text(max_nb_chars=20),
+            finst.text(),
+            random.randint(0, 10000)
+        )
     )
-    for i in range(500000)
-]
 
-some_col1 = collection[0:len(collection) // 2]
-some_col2 = collection[len(collection) // 2:]
+some_placholders1 = placeholders[0:len(placeholders) // 2]
+some_placholders2 = placeholders[len(placeholders) // 2:]
 
-collection.extend(some_col1)
-collection.extend(some_col2 * 3)
+placeholders.extend(some_placholders1)
+placeholders.extend(some_placholders2 * 3)
 
 print("Shuffling ...")
-random.shuffle(collection)
+random.shuffle(placeholders)
+
+print("Generating collection with id's ...")
+collection = []
+
+for i, pholder in enumerate(placeholders):
+    collection.append(Record(i, pholder.short_text, pholder.large_text, pholder.number))
 
 print("Generation time: {:.2f}s".format(time.time() - start))
 print("Length of collection: {}\n".format(len(collection)))
