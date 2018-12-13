@@ -59,7 +59,7 @@ uwsgi:
 	[ -L $(AGNIESZKA_APP_AV) ] || ln -s $(BASE_LOCATION)/deploy/etc/uwsgi/apps-available/agnieszka.ini $(AGNIESZKA_APP_AV)
 	[ -L $(AGNIESZKA_APP_EN) ] || ln -s $(AGNIESZKA_APP_AV) $(AGNIESZKA_APP_EN)
 
-deploy: install_python install_dependencies virtualenv logs dirs migrate collectstatic permissions www uwsgi nginx geoip
+deploy: install_python install_dependencies virtualenv logs dirs migrate collectstatic permissions www uwsgi nginx
 
 cleanpyc:
 	find -type f -name "*.pyc" | xargs rm
