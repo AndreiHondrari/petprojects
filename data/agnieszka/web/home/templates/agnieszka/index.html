@@ -1,0 +1,113 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agnieszka Search Engine</title>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'agnieszka/img/favicon/apple-icon-57x57.png' %}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'agnieszka/img/favicon/apple-icon-60x60.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'agnieszka/img/favicon/apple-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'agnieszka/img/favicon/apple-icon-76x76.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'agnieszka/img/favicon/apple-icon-114x114.png' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'agnieszka/img/favicon/apple-icon-120x120.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'agnieszka/img/favicon/apple-icon-144x144.png' %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'agnieszka/img/favicon/apple-icon-152x152.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'agnieszka/img/favicon/apple-icon-180x180.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{% static 'agnieszka/img/favicon/android-icon-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'agnieszka/img/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'agnieszka/img/favicon/favicon-96x96.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'agnieszka/img/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'agnieszka/img/favicon/manifest.json' %}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{% static 'agnieszka/img/favicon/ms-icon-144x144.png' %}">
+    <meta name="theme-color" content="#ffffff">
+
+  <!--   <link rel="stylesheet" type="text/css" href="{% static 'thirdparty/bootstrap/css/bootstrap.min.css' %}"> -->
+
+    <link rel="stylesheet" type="text/css" href="{% static 'thirdparty/fontawesome/css/all.min.css' %}">
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'agnieszka/css/app.css' %}">
+</head>
+<body>
+
+    {% if no_query %}
+
+    <div class="initial-search">
+        <a href="{% url 'home' %}" class="display-1 search-header">
+            <span class="blue">A</span><span class="yellow">g</span><span class="green">n</span><span class="red">i</span><span class="blue">e</span><span class="green">s</span><span class="yellow">z</span><span class="red">k</span><span class="blue">a</span>
+        </a>
+
+        <p class="mb-5 motto">the search engine</p>
+
+        <form action="" method="get" accept-charset="utf-8" class="search-bar" id="initial-search-form">
+            <div class="input-group actual-bar">
+                <input type="text" name="query" class="form-control">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary pl-4 pr-4 do-search"><i class="fas fa-search"></i></button>
+                </div>  
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-aga do-search"><i class="fas fa-search"></i> Search</button>
+                <button id="feeling-lucky" class="btn btn-aga">I'm feeling lucky</button>
+            </div>
+        </form>
+    </div>
+
+    {% else %}
+
+    <div class="detailed-search container-fluid">
+
+        <div class="row pb-5">
+            <div class="col-12 search pt-3 pb-4">
+                <div class="search-header pl-4">
+                    <a href="{% url 'home' %}" class="display-4">
+                        <span class="blue">A</span><span class="yellow">g</span><span class="green">n</span><span class="red">i</span><span class="blue">e</span><span class="green">s</span><span class="yellow">z</span><span class="red">k</span><span class="blue">a</span>
+                    </a>
+
+                    <p class="motto">the search engine</p>
+                </div>
+
+                <div class="search-bar-wrapper pl-5 pr-5">
+                    <form action="" method="get" accept-charset="utf-8" class="search-bar">
+                        <div class="input-group actual-bar">
+                            <input type="text" name="query" class="form-control" value="{{ query }}">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary pl-4 pr-4"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+                
+            </div> <!-- END col-12 -->
+        </div> <!-- END search -->
+
+        <div class="row">
+            <div class="offset-1 col-10 col-lg-5 results">
+                {% for result in results %}
+                <div class="result pb-3">
+                    <a class="title" target="_blank" href="{{ result.url }}">{{ result.meta_title }}</a><br/>
+                    <a class="link" target="_blank" href="{{ result.url }}">{{ result.url }}</a>
+                    <p class="meta-descr">{{ result.meta_description|slice:"250" }} ...</p>
+                </div>
+                {% endfor %}
+
+                {% if not results %}
+                <p>No results found for: {{ query }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{% static 'thirdparty/jquery/jquery.min.js' %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static 'thirdparty/bootstrap/js/bootstrap.min.js' %}" type="text/javascript" charset="utf-8" async defer></script>
+    <script src="{% static 'thirdparty/fontawesome/js/all.min.js' %}" type="text/javascript" charset="utf-8" async defer></script>
+
+    <script src="{% static 'agnieszka/js/app.js' %}" type="text/javascript" charset="utf-8" async defer></script>
+</body>
+</html>
