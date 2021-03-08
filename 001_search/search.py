@@ -47,10 +47,12 @@ if __name__ == "__main__":
     # DIVIDE ET IMPERA SEARCH
     print("################################################################")
     print("Divide et impera search\n")
-    dei_procedures.postsorted_search_short_text(target_record, COLLECTION)
-    dei_procedures.presorted_search_short_text(target_record, COLLECTION)
-    dei_procedures.postsorted_search_long_text(target_record, COLLECTION)
-    dei_procedures.presorted_search_long_text(target_record, COLLECTION)
+    dei_procedures.search_short_text_in_sorted_collection(
+        target_record, COLLECTION
+    )
+    dei_procedures.search_long_text_in_sorted_collection(
+        target_record, COLLECTION
+    )
 
     # INDEXED SEARCH
 

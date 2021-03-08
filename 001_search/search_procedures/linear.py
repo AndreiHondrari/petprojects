@@ -23,10 +23,10 @@ def simple_search_short_text(
             print("Went through {} records.".format(i))
 
         if r.short_text == target_record.short_text:
-            print("\nFound record: {}\n".format(r))
+            print("Found record: {}".format(r.id))
             count += 1
 
-    print("Search time: {:.2f}s".format(time.time() - start))
+    print("\nSearch time: {:.2f}s".format(time.time() - start))
     print("Counted: {}\n".format(count))
 
 
@@ -47,8 +47,8 @@ def simple_search_long_text(
             print("Went through {} records.".format(i))
 
         if r.large_text == target_record.large_text:
-            print("\nFound record: {}\n".format(r))
+            print("Found record: {}".format(r.id))
             count += 1
 
-    print("Search time: {:.2f}s".format(time.time() - start))
+    print("\nSearch time: {:.2f}s".format(time.time() - start))
     print("Counted: {}\n".format(count))

@@ -1,7 +1,7 @@
 
 from record import Record
 
-from typing import Any, List
+from typing import List
 
 
 def find_records(
@@ -35,15 +35,3 @@ def find_records(
             records.extend(find_records(second_half, attribute, value, True))
 
     return records
-
-
-def sort_and_find_records(
-    collection: List[Record],
-    attribute: str,
-    value: Any
-) -> List[Record]:
-    collection = sorted(
-        collection,
-        key=lambda x: getattr(x, attribute)  # type: ignore[no-any-return]
-    )
-    return find_records(collection, attribute, value)
