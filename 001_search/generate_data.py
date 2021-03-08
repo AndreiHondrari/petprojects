@@ -40,6 +40,8 @@ some_placholders1 = placeholders[0:len(placeholders) // 2]
 some_placholders2 = placeholders[len(placeholders) // 2:]
 
 placeholders.extend(some_placholders1)
+
+# triplicate half of the original set of record placeholders
 placeholders.extend(some_placholders2 * 3)
 
 print("Shuffling ...")
