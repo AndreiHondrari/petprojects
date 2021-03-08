@@ -45,7 +45,7 @@ def search_long_text_in_sorted_collection(
     print("#################################################################")
     print(
         "Divide et impera search for large text "
-        "(for post-sorted collection): {}\n".format(target_record.large_text)
+        "(for sorted collection): {}\n".format(target_record.large_text)
     )
     before_sort_start = time.time()
     sorted_collection = sorted(
