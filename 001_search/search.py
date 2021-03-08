@@ -9,6 +9,7 @@ from typing import List, Dict
 from record import Record
 from search_tools.indexed import create_index
 from search_procedures import (
+    linear as linear_procedures,
     divide_et_impera as dei_procedures,
     indexed as idx_procedures,
 )
@@ -20,8 +21,7 @@ if __name__ == "__main__":
         "compare simple search versus smart search (including index search)"
     )
 
-    # LOAD COLLECTIONS
-
+    # LOAD COLLECTION
     start = time.time()
     try:
         pf = open("data", "rb")
@@ -38,9 +38,15 @@ if __name__ == "__main__":
     record_index = random.randint(0, len(COLLECTION))
     target_record = COLLECTION[record_index]
 
+    # LINEAR SEARCH
+    print("################################################################")
+    print("Linear search\n")
+    linear_procedures.simple_search_short_text(target_record, COLLECTION)
+    linear_procedures.simple_search_long_text(target_record, COLLECTION)
+
     # DIVIDE ET IMPERA SEARCH
-    dei_procedures.simple_search_short_text(target_record, COLLECTION)
-    dei_procedures.simple_search_long_text(target_record, COLLECTION)
+    print("################################################################")
+    print("Divide et impera search\n")
     dei_procedures.postsorted_search_short_text(target_record, COLLECTION)
     dei_procedures.presorted_search_short_text(target_record, COLLECTION)
     dei_procedures.postsorted_search_long_text(target_record, COLLECTION)
@@ -50,7 +56,8 @@ if __name__ == "__main__":
 
     # make the collection a dict for easy access by ID
     print("################################################################")
-    print("Index searches")
+    print("Index search\n")
+
     print("Create indexes ...")
     IDENTIFIED_COLLECTION: Dict[int, Record] = {r.id: r for r in COLLECTION}
 
