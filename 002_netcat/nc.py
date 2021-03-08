@@ -1,3 +1,5 @@
+#!python
+
 """
     Netcat - custom implementation in Python
     ----------------------------------------
@@ -12,6 +14,7 @@ import sys
 import argparse
 import socket
 import signal
+import types
 
 DEFAULT_PORT = 12345
 DEFAULT_HOST_NAME = ''
@@ -35,13 +38,17 @@ if __name__ == "__main__":
 
     # create server
     if args_space.listen:
-        running = True
+        running: bool = True
         server_socket = socket.socket()
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         host_addr = socket.gethostbyname(DEFAULT_HOST_NAME)
         server_socket.bind((host_addr, port))
 
-        def sigint_handler(sig, frame):
+        def sigint_handler(
+            sig: signal.Signals,
+            frame: types.FrameType,
+        ) -> None:
+            global running
             print("\n\nYou pressed Ctrl+C")
             server_socket.close()
             running = False
@@ -57,7 +64,7 @@ if __name__ == "__main__":
                 break
 
             server_connection, addr = server_socket.accept()
-            
+
             try:
                 while True:
                     data = server_connection.recv(1024).decode()
@@ -66,7 +73,7 @@ if __name__ == "__main__":
                         break
 
                     print("{}: {}".format(addr, data))
-            except socket.error as e:
+            except socket.error:
                 break
 
         print("Listening stopped.")
@@ -79,9 +86,12 @@ if __name__ == "__main__":
         else:
             host = args_space.host
 
-        def sigint_handler(sig, frame):
+        def sigint_handler(
+            sig: signal.Signals,
+            frame: types.FrameType,
+        ) -> None:
             sys.exit(0)
-        
+
         signal.signal(signal.SIGINT, sigint_handler)
 
         print("Type to send to {}:{}\n".format(host, port))
@@ -94,4 +104,3 @@ if __name__ == "__main__":
             client_socket.settimeout(None)
             client_socket.send(data.encode())
             client_socket.close()
-    
