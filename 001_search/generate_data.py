@@ -48,11 +48,16 @@ print("Shuffling ...")
 random.shuffle(placeholders)
 
 print("Generating collection with id's ...")
-collection = []
+collection: List[Record] = []
 
 for i, pholder in enumerate(placeholders):
     collection.append(
-        Record(i, pholder.short_text, pholder.large_text, pholder.number)
+        Record(
+            i,
+            pholder.short_text,
+            pholder.large_text,
+            pholder.number
+        )
     )
 
 print("Generation time: {:.2f}s".format(time.time() - start))
