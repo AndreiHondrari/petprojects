@@ -1,0 +1,48 @@
+
+.image-wrapper {
+    position: relative;
+    width: 700px;
+    height: 700px;
+}
+
+.actual-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.zoom-viewport {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 33%;
+    height: 33%;
+    border: 1px solid black;
+}
+
+.zoom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.tracker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    cursor: pointer;
+}
